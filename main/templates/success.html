@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main class="d-flex align-items-center justify-content-center min-vh-100">
+    <div class="text-center p-5 bg-light shadow rounded" style="max-width: 500px;">
+        <div class="mb-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Success" width="80">
+        </div>
+        <h2 class="text-success fw-bold">Payment Successful!</h2>
+        <p class="text-muted">Thank you<h1>{{user.username}}</h1> for your payment. Your subscription is now active.</p>
+        
+        <div class="alert alert-success">
+            <strong>Subscription Details:</strong>
+            <ul class="list-unstyled mt-2">
+                <li><strong>Plan:</strong> {{plan.title}}</li>
+                <li><strong>Amount Paid:</strong> ${{plan.price }}</li>
+                <li><strong>Email:</strong> {{ user.email}}</li>
+            </ul>
+        </div>
+
+        <a href="{% url 'home' %}" class="btn btn-primary mt-3">Return to Home</a>
+    </div>
+</main>
+
+{% endblock %}

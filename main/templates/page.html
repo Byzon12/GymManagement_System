@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<link href="{% static 'bootstrap-icons.css' %}" rel="stylesheet">
+
+<main>
+ 
+
+    <!-- page -->
+    <section class="container my-4">
+        <h1 class="text-center mb-4 section-heading border-bottom pb-2">{{page.title}}</h1>
+       <P>{{page.detail}} </P>
+        </div>
+    </section>
+    <!-- End -->
+
+   
+    </section>
+    <!-- End Testimonials -->
+
+</main>
+
+{% endblock %}

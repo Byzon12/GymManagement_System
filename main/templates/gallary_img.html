@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!--jquery" %}-->
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+    <!-- Main Start -->
+    <main>
+		<!-- Services -->
+		<section class="container my-4">
+			<h1 class="text-center mb-4 section-heading border-bottom pb-2">{{galler.title}} Images</h1>
+			<div class="row">
+				{% for gimg in gallery_img %}
+				<div class="col-md-4 mb-4">
+					<div class="card">
+					 
+					  <a href="{{gimg.img.url}}" data-lightbox="gallery" > <img src="{{gimg.img.url}}" width="155" class="card-img-top" alt="{{gimg.alt_text}}"></a>
+					</di>
+				</div>
+				{% endfor %}
+			</div>
+		</section>
+		<!-- End -->
+    </main>
+    <!-- End -->
+	<link rel="stylesheet" type="text/css" href="{% static 'lightbox2-dev/dist/css/lightbox.min.css' %}">
+	<!-- lightbox.min.js -->.
+	<script src="{% static 'lightbox2-dev/dist/js/lightbox-plus-jquery.min.js' %}"></script>
+{% endblock %}
