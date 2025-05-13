@@ -265,15 +265,15 @@ def trainer_dashboard(request):
 
 #trainer profile
 def trainer_profile(request):
-    if not request.session.get('trainerLogin'):
-        return redirect('trainer_login')
-    
-    if request.method.POST:
-        form = forms.TrainerProfileForm(request.POST, instance=trainer_dashboard)
-        if form.is_valid():
-            form.save()
-            msg = 'Profile updated successfully'
-    form = forms.TrainerProfileForm
+    if  request.session.get('trainerLogin'):
+        trainer = models.Trainer.objects.get(UserName=request.user)
+        form = forms.TrainerProfileForm(instance=trainer)
+        if request.method == 'POST':
+            form = forms.TrainerProfileForm(request.POST, instance=trainer)
+            if form.is_valid():
+                form.save()
+                msg = 'Profile updated successfully'
+    form = forms.TrainerProfileForm(instance=trainer)
     
     return render(request,"trainer/trainer_profile.html", {'form': form})
 
