@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load mathfilters %}
 {% block content %}
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
@@ -20,8 +21,8 @@
         <h4 class="my-0 fw-normal">{{pln.title}}</h4>
       </div>
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">${{pln.price}}<small class="text-muted fw-light">/mo</small></h1>
-        <p class="text-success">Member capacity {{pln.max_member}}</p>
+        <h1 class="card-title pricing-card-title">${{pln.price}}<small class="text-muted fw-light">/{{pln.validity_days}} Days</small></h1>
+        <p class="text-success">Member capacity {{pln.max_member| sub:pln.total_members}}</p>
         <ul class="list-unstyled mt-3 mb-4">
             {%for feature in pln.subfeature_set.all%}
           <li>{{feature.title}}</li>

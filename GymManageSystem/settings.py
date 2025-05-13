@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'mathfilters',
     
 ]
 
@@ -169,4 +170,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'byzoneochieng@gmail.com'
 EMAIL_HOST_PASSWORD = 'mxvxvpwovnlfsvgq'  # Use App Password if 2FA is enabled
+
 

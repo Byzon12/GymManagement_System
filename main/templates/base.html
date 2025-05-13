@@ -3,12 +3,22 @@
 <html lang="en">
 
   <head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+	
+	  
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link href="{% static 'bootstrap.min.css'%}" rel="stylesheet" />
     <!-- Bootstrap Icons -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="node_modules/bootstrap-icons/font/bootstrap-icons.css" />
     <!-- jquery -->
     <script src="assets/jquery-3.6.0.min.js"></script>
@@ -46,7 +56,7 @@
 	          </a>
 	          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
 				{% if request.user.is_authenticated %}
-   				 <li><a class="dropdown-item" href="#">Profile</a></li>
+				<li><a class="dropdown-item" href="{% url 'userdashboard'%}">Profile</a></li>
     			<li><a class="dropdown-item" href="#">Settings</a></li>
 				<form method="post" action="{% url 'logout' %}">
 					{% csrf_token %}
@@ -54,8 +64,24 @@
 				</form>
 
 {% else %}
-   			 <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
-   			 <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+{% if request.session.traionerLogin%}
+	 {%if request.resolver_match.url_name == "trainer_dashboard"%}
+			  <li><a class="dropdown-item disabled" href="{% url 'trainer_dashboard'%}">Trainer Dashboard</a></li>
+			   <li><a class="dropdown-item" href="{% url 'trainer_logout'%}">Tainer Logout</a></li>
+			 {%else%}
+			 <li><a class="dropdown-item" href="{% url 'trainer_dashboard'%}">Trainer Dashboard</a></li>
+			
+			 {%endif%}
+			
+		{%else%}
+			<li><a class="dropdown-item" href="{% url 'trainer_login'%}">Tainer Login</a></li>
+			<li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
+		 
+		<li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+
+			
+	{%endif%}
+
 {% endif %}
 
 	          </ul>

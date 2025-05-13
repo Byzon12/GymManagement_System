@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<link href="{% static 'bootstrap-icons.css' %}" rel="stylesheet">
+
+<main>
+   <section class="container my-4">
+        <div class="row">
+            <div class="col-md-3">
+               {% include 'leftside_bar.html' %}
+               
+            </div>
+          <div class ="col-9">
+            <h3 class="mb-4 border-bottom pb-1">{{user.username}} Dashboard</h3>
+            <div class="row">
+                  <div class="col-md-4 mb-3">
+                     <div class="card">
+                        <h4 class="card-header">Current Package</h4>
+                        <div class="card-body">
+                           <h5 class="card-title">{{current_plan.plan}}</h5>
+                        
+                           <p class="card-text">Price:$ {{current_plan.price}}</p>
+                           <p class="card-text">Start Date: {{current_plan.start_date}}</p>
+                           <p class="card-text">End Date: {{end_date}}</p>
+                           
+                           </div>
+                     </div>
+                     </div>
+                  <div class="col-md-6 mb-3">
+                   
+                        <div class="card">
+                              <h4 class="card-header">Assigned Trainer</h4>
+                              <img src="{{my_trainer.trainer.img.url}}" class="card-img-top" alt="{{my_trainer.trainer}}" style="height: 200px; width: 100%; object-fit: cover;">
+                                 <div class="card-body">
+                                      {%if my_trainer%}
+                                       <p class="card-text">{{my_trainer.trainer}}</p>
+                                       <p class="card-text">{{my_trainer.trainer.phone}}</p>
+                                       {%else%}
+                                       <p class="card-text">No trainer assigned</p>
+                                       {%endif%}
+
+                                 
+                                 </div>
+                                 <div class="card-footer">
+                                    <a href="{{my_trainer.trainer.facebook}}"title="facebook" class="btn btn-secondary btn-sm"><i class="bi bi-facebook"></i></a>
+                                    <a href="{{my_trainer.trainer.instagram}}" title="instagram" class="btn btn-secondary btn-sm"><i class="bi bi-instagram"></i></a>
+                                    <a href="{{my_trainer.trainer.twitter}" title="twitter" class="btn btn-secondary btn-sm"><i class="bi bi-twitter"></i></a>
+                                    <a href="{{my_trainer.trainer.youtube}}" title="youtube" class="btn btn-secondary btn-sm"><i class="bi bi-youtube"></i></a>
+                                    <button type="button" class="btn btn-success btn-sm float-end" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-trophy-fill"></i></button>
+
+                     <!-- Button trigger modal -->
+                                       
+                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                           <h1 class="modal-title fs-5" id="exampleModalLabel">{{my_trainer.trainer}} Achievements</h1>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                           </div>
+                           <div class="modal-body">
+                              <table class="table table-hover">
+                                 <thead>
+                                    <tr>
+                                       <th scope="col">Title</th>
+                                       <th scope="col">Details</th>
+                                       <th scope="col">Image</th>
+                                       
+                                       
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                   {%for Achievements in my_trainer.trainer.trainerachievements_set.all%}
+                                    
+                                    <tr>
+                                       <td>{{Achievements.title}}</td>
+                                       <td>{{Achievements.detail}}</td>
+                                       <td><img src="{{Achievements.img.url}}" alt="{{ach.title}}" style="height: 100px; width: 100px; object-fit: cover;"></td>
+                                       
+                                    </tr>
+                                    {%endfor%}
+                                    
+                                 </tbody>
+                              
+                                 </thead>
+                              </table>
+                           </div>
+                           
+                           
+                        </div>
+                     </div>
+                     </div>
+                                 </div>
+                              </div>
+                           </div>
+
+                        </div>
+                     </div>
+            </div>
+            </div>
+
+
+   </section>
+</main>
+
+{% endblock %}

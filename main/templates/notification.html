@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+
+<style>
+    .marked {
+        display: none;
+    }
+    .marked:hover {
+        cursor: pointer;
+    }
+    </style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+  
+
+<link href="{% static 'bootstrap-icons.css' %}" rel="stylesheet">
+
+<main>
+   <section class="container my-4">
+        <div class="row">
+            <div class="col-md-3">
+               {% include 'leftside_bar.html' %}
+               
+            </div>
+          <div class ="col-9">
+            <h3 class="mb-4 border-bottom pb-1">Notification<span class="badge bg-primary totalUnread">0</span></h3>
+            <span class="ajaxResponse"></span>
+            <ul class="list-group notification-list">
+               loading notifications...
+            </ul>
+            </div>
+
+
+   </section>
+</main>
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    $(document).ready(function () {
+        setInterval(function () {
+            var csrftoken = getCookie('csrftoken');
+    
+            $.ajaxSetup({
+                headers: { 'X-CSRFToken': csrftoken }
+            });
+    
+            $.ajax({
+                url: "{% url 'get_notification' %}",
+                type: "GET",
+                dataType: "json",
+                beforeSend: function () {
+                    $('.ajaxResponse').show();
+                    $('.ajaxResponse').text('Loading notifications...');
+                },
+                success: function (response) {
+                    let _html = '';
+                    
+                    $('.totalUnread').text(response.totalUnread);
+                  
+                    $.each(response.notifications, function (index, notification) {
+                        if (notification.status === true) {
+                            _html += '<li class="list-group-item list' + notification.id + '">' +
+                                notification.notify_detail +
+                                '<button class="text-success float-end me-2 marked marked' + notification.id + '" style="display:inline;"><i class="bi bi-check2"></i></button>' +
+                                '</li>';
+                        } else {
+                            _html += '<li class="list-group-item bg-light list' + notification.id + '">' +
+                                notification.notify_detail +
+                                '<button data-index="' + notification.id + '" data-notification="' + notification.id + '" class="btn btn-sm btn-danger float-end me-2">Mark Read</button>' +
+                                '<button class="text-success float-end me-2 marked marked' + notification.id + '" style="display:none;"><i class="bi bi-check2"></i></button>' +
+                                '</li>';
+                        }
+                    });
+    
+                    $('.notification-list').html(_html);
+                    $('.ajaxResponse').hide();
+                }
+            });
+        }, 5000); // Refresh every 5 seconds
+    
+        $(document).on('click', '.btn-danger', function () {
+            var _index = $(this).attr('data-index');
+            var notificationId = $(this).attr('data-notification');
+            var csrftoken = getCookie('csrftoken');
+    
+            $.ajaxSetup({
+                headers: { 'X-CSRFToken': csrftoken }
+            });
+    
+            $.ajax({
+                url: "{% url 'read_by_user' %}",
+                type: "POST",
+                data: {
+                    'notification': notificationId
+                },
+                success: function (response) {
+                    if (response.status == 'success') {
+                        $('.list' + notificationId).removeClass('bg-light');
+                        $('.marked' + _index).show();
+                        $('.btn-danger[data-notification="' + notificationId + '"]').hide();
+                    } else {
+                        alert('Error marking notification as read.');
+                    }
+                }
+            });
+        });
+    });
+    </script>
+    
+   
+
+
+{% endblock %}

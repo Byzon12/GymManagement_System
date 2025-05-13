@@ -17,7 +17,22 @@ urlpatterns = [
     path('pay_success', views.pay_success, name='pay_success'),
     path('pay_cancel', views.pay_cancel, name='pay_cancel'),
     
-   
+    #USERDASHBOARD URLS
+    path('userdashboard', views.userdashboard, name='userdashboard'),
+    path('update_profile', views.update_profile, name='update_profile'),
+   path('change_password', views.change_password, name='change_password'),
+   #trainer
+   path('trainer/login', views.trainer_login, name='trainer_login'),
+   path('trainer/logout', views.trainer_logout, name='trainer_logout'),
+   path('trainer_dashboard', views.trainer_dashboard, name='trainer_dashboard'),
+   path('trainer_profile', views.trainer_profile, name='trainer_profile'),
+    
+   #notification
+    path('notification', views.notification, name='notification'),
+    path('get_notification', views.get_notifications, name='get_notification'),
+    path('notification/read_by_user', views.mark_notification_as_read, name='read_by_user'),
+  
+
 ]
 
 if settings.DEBUG:
